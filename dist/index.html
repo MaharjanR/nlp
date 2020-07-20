@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>NLP</title>
+        <link href="main.css" rel="stylesheet" />
+    </head>
+    <body>
+        <header><h1>NLP</h1></header>
+        <main>
+            <div class="container">
+                <form>
+                    <label>Please enter URL or words:</label>
+                    <input name="word" id="word" />
+                    <button
+                        type="submit"
+                        id="btn-submit"
+                        onclick="return Client.handleSubmit(e)"
+                        onsubmit="return Client.handleSubmit(e)"
+                    >
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </main>
+        <script src="main.js"></script>
+    </body>
+</html>
