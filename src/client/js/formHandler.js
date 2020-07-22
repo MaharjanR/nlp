@@ -21,13 +21,8 @@ export async function handleSubmit(e) {
 
     console.log("post finished");
 
-    const news = await fetch("http://localhost:8081/title");
-    const newsJson = await news.json();
+    const sentiment = await fetch("http://localhost:8081/sentiment");
+    const sentimentJson = await sentiment.json();
 
-    newsJson.forEach((data) => {
-        console.log(data);
-        const fragment = document.createDocumentFragment();
-        fragment.innerHTML = `<h3>${data}</h3>`;
-        titleDiv.appendChild(fragment);
-    });
+    console.log(sentimentJson);
 }

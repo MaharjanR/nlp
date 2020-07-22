@@ -22,50 +22,52 @@ app.use(express.static("dist"));
 
 dotenv.config();
 
-let news;
+let sentiment;
 
 app.get("/", function (req, res) {
     res.sendFile("dist/index.html");
 });
 
-console.log(news);
-
 app.post("/title", async (req, res) => {
     try {
-        const allTitle = await axios
-            .get("https://api.aylien.com/news/stories", {
-                params: {
-                    title: req.body.title,
-                },
-                headers: {
-                    "X-AYLIEN-NewsAPI-Application-ID": process.env.API_ID,
-                    "X-AYLIEN-NewsAPI-Application-Key": process.env.API_KEY,
-                },
-            })
-            .then((data) => {
-                let dataSet = data.data.stories; //array of objects
-                console.log(dataSet.length);
-                return dataSet.map((data) => data.title);
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        console.log(
+            `api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=en&txt=${req.body.title}`
+        );
+        const result = await axios.post(
+            `http://api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=en&txt=${req.body.title}`
+        );
 
-        news = allTitle;
-        console.log(news);
+        const { data } = result;
+
+        console.log(data);
+
+        const { score_tag } = data;
+        const { agreement } = data;
+        const { subjectivity } = data;
+        const { confidence } = data;
+        const { irony } = data;
+
+        // storing the api response
+        sentiment = {
+            score_tag,
+            agreement,
+            subjectivity,
+            confidence,
+            irony,
+        };
+
         res.end("It worked!");
     } catch (e) {
-        console.log(e);
+        console.log(`Error = ${e}`);
     }
 });
 
-app.get("/title", (req, res) => {
-    console.log("Get news");
-    console.log(news);
-    res.send(news);
+app.get("/sentiment", (req, res) => {
+    console.log("Get Request");
+    res.send(sentiment);
 });
 
-const port = 8081;
+const port = process.env.port || 3000;
 
 // designates what port the app will listen to for incoming requests
 app.listen(port, function () {
