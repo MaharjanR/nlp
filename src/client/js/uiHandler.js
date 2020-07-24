@@ -1,6 +1,8 @@
 export function updateUI(result, validation) {
+    // selecting the result container from DOM
     const resultContainer = document.querySelector("#result");
 
+    // runs if there is data in result and no errors otherwise displays error
     if (result && !validation) {
         resultContainer.innerHTML = `
         <div class="container">
