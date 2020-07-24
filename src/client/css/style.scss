@@ -6,8 +6,60 @@
     box-sizing: border-box;
 }
 
+.container {
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 1rem auto;
+    border-radius: 0.5rem;
+    background: $white-color;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 body {
     font: $font-stack;
     color: $primary-color;
     background: $secondary-color;
+    text-align: center;
+}
+
+header {
+    padding: 1rem auto;
+    font-family: Dancing Script, cursive;
+}
+
+main {
+    margin: 1rem 0;
+
+    form {
+        h1 {
+            padding: 1rem 0;
+        }
+
+        fieldset {
+            border: none;
+            margin: 1rem 0;
+
+            input[type="text"] {
+                padding: 0.2rem;
+            }
+        }
+
+        #btn-submit {
+            padding: 0.3rem;
+        }
+    }
+
+    .result {
+        h3 {
+            display: inline-block;
+        }
+    }
+}
+
+.error {
+    color: $error-color;
 }

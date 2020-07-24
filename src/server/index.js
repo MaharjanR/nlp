@@ -30,32 +30,31 @@ app.get("/", function (req, res) {
 
 app.post("/title", async (req, res) => {
     try {
-        console.log(
-            `api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=en&txt=${req.body.title}`
-        );
         const result = await axios.post(
-            `http://api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=en&txt=${req.body.title}`
+            `http://api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=en&${req.body.type}=${req.body.title}`
         );
 
         const { data } = result;
+        const { code } = data.status;
 
-        console.log(data);
+        if (code !== "200") {
+            const { score_tag } = data;
+            const { agreement } = data;
+            const { subjectivity } = data;
+            const { confidence } = data;
+            const { irony } = data;
 
-        const { score_tag } = data;
-        const { agreement } = data;
-        const { subjectivity } = data;
-        const { confidence } = data;
-        const { irony } = data;
-
-        // storing the api response
-        sentiment = {
-            score_tag,
-            agreement,
-            subjectivity,
-            confidence,
-            irony,
-        };
-
+            // storing the api response
+            sentiment = {
+                score_tag,
+                agreement,
+                subjectivity,
+                confidence,
+                irony,
+            };
+        } else {
+            sentiment = false;
+        }
         res.end("It worked!");
     } catch (e) {
         console.log(`Error = ${e}`);
@@ -63,7 +62,6 @@ app.post("/title", async (req, res) => {
 });
 
 app.get("/sentiment", (req, res) => {
-    console.log("Get Request");
     res.send(sentiment);
 });
 

@@ -1,14 +1,25 @@
 export async function handleSubmit(e) {
+    console.log("asdsadsad");
     e.preventDefault();
 
     const formText = document.querySelector("#word").value;
-    const titleDiv = document.querySelector("#title");
+    const urlRadio = document.querySelector("#radio-url").checked;
+    let text;
+    let validation;
 
-    const text = {
-        title: formText,
-    };
-
-    console.log(text);
+    if (urlRadio) {
+        text = {
+            title: formText,
+            type: "url",
+        };
+        validation = Client.validateInput(formText, "url");
+    } else {
+        text = {
+            title: formText,
+            type: "txt",
+        };
+        validation = Client.validateInput(formText, "word");
+    }
 
     await fetch("http://localhost:8081/title", {
         method: "POST",
@@ -19,10 +30,8 @@ export async function handleSubmit(e) {
         body: JSON.stringify(text),
     });
 
-    console.log("post finished");
-
     const sentiment = await fetch("http://localhost:8081/sentiment");
     const sentimentJson = await sentiment.json();
 
-    console.log(sentimentJson);
+    Client.updateUI(sentimentJson, validation);
 }

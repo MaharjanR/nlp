@@ -7,14 +7,38 @@
     </head>
     <body>
         <header>
-            <h1>NLP</h1>
+            <h1>Natural Language Processing</h1>
         </header>
 
         <main>
-            <div class="container">
-                <form>
-                    <label>Please enter URL or words:</label>
-                    <input type="text" name="word" id="word" />
+            <form>
+                <div class="container">
+                    <h1>Sentiment Analysis</h1>
+                    <fieldset>
+                        <label>Please enter URL or words:</label>
+                        <input type="text" name="word" id="word" />
+                    </fieldset>
+                    <label
+                        >Please select URL or words depending upon the input
+                        inserted</label
+                    >
+                    <fieldset>
+                        <input
+                            type="radio"
+                            id="radio-word"
+                            name="url"
+                            value="word"
+                            checked
+                        />
+                        <label for="word">Word</label>
+                        <input
+                            type="radio"
+                            id="radio-url"
+                            name="url"
+                            value="url"
+                        />
+                        <label for="url">URL</label>
+                    </fieldset>
                     <button
                         type="submit"
                         id="btn-submit"
@@ -23,10 +47,19 @@
                     >
                         Submit
                     </button>
-                </form>
-            </div>
+                </div>
+            </form>
 
-            <div class="title" id="title"></div>
+            <div class="result" id="result"></div>
         </main>
+        <script>
+            // Check that service workers are supported
+            if ("serviceWorker" in navigator) {
+                // Use the window load event to keep the page load performant
+                window.addEventListener("load", () => {
+                    navigator.serviceWorker.register("/service-worker.js");
+                });
+            }
+        </script>
     </body>
 </html>
